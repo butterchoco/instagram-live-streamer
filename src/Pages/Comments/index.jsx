@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { saveComments, clearComments } from "../../store/User/actions";
 import { getClient } from "../../lib/igClient";
@@ -30,7 +30,7 @@ function Comments({
   let lastCommentTs =
     comments && comments.length > 0 ? comments[0].created_at : 0;
 
-  const startComments = async () => {
+  const startComments = useCallback(async () => {
     setInProgress(true);
     window.refreshInterval = setInterval(() => {
       if (!isFetchingComments) {
@@ -38,7 +38,8 @@ function Comments({
       }
     }, 2000);
     setInProgress(false);
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetchingComments]);
 
   const stopComments = async () => {
     setInProgress(true);
@@ -126,12 +127,12 @@ function Comments({
       stopComments();
       dispatch(clearComments());
     };
-  }, []);
+  }, [dispatch, isMuted, startComments]);
 
   const renderComments = (comments) => {
     return comments.map((comment) => (
       <div key={comment.pk} className={styles.comment}>
-        <img className={styles.profilePic} src={`${process.env.REACT_APP_IMAGE_PROXY}/${comment.user.profile_pic_url}`} />
+        <img alt="profile-pic" className={styles.profilePic} src={`${process.env.REACT_APP_IMAGE_PROXY}/${comment.user.profile_pic_url}`} />
         <div className={styles.textContainer}>
           <h4 className={styles.title}>{comment.user.username}</h4>
           <p className={styles.text}>{comment.text}</p>
@@ -146,7 +147,7 @@ function Comments({
           }`}
           onClick={() => pinComment(comment)}
         >
-          <img src={PinIcon} className={styles.icon} />
+          <img alt="pin-icon" src={PinIcon} className={styles.icon} />
         </div>
       </div>
     ));
@@ -155,7 +156,7 @@ function Comments({
   return (
     <div className={`${styles.commentsScreen} ${!open ? styles.close : ""}`}>
       <div className={styles.header}>
-        <img src={`${process.env.REACT_APP_IMAGE_PROXY}/${profile.profile_pic_url}`} className={styles.headerIcon} />
+        <img alt="profile-pic" src={`${process.env.REACT_APP_IMAGE_PROXY}/${profile.profile_pic_url}`} className={styles.headerIcon} />
         <h2 className={styles.title}>Comments</h2>
         {!inProgress ? (
           <Toggle
@@ -168,7 +169,7 @@ function Comments({
         ) : (
           <></>
         )}
-        <img
+        <img alt="close-icon"
           src={CloseIcon}
           className={styles.closeIcon}
           onClick={() => clickClose()}
@@ -176,7 +177,7 @@ function Comments({
       </div>
       {isMuted ? (
         <div className={styles.commentsDiabled}>
-          <img src={MuteIcon} className={styles.muteIcon} />
+          <img alt="mute-icon" src={MuteIcon} className={styles.muteIcon} />
           <p className={styles.description}>
             Comments are muted. Click on unmute comments to enable comments
           </p>
@@ -201,7 +202,7 @@ function Comments({
               placeholder={isCommenting ? "Loading..." : "Type and Press enter to send"}
             />
             <button className={styles.sendButton} type="submit">
-              <img src={SendIcon} alt="" />
+              <img alt="icon" src={SendIcon} />
             </button>
           </form>
         </>

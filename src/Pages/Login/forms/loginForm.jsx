@@ -50,7 +50,8 @@ export default function LoginForm({ handleLogin, credError }) {
       <div className={styles.statusTexts}>
         <p className={styles.status}>Streamon {appVersion}</p>
         <p className={styles.author}>
-          ⚠️ Please read our&nbsp;
+          <span role="img"
+          aria-label="important">⚠️</span> Please read our&nbsp;
           <span
             className={styles.link}
             onClick={() => openLinkInBrowser("https://getstreamon.com/terms")}
@@ -60,6 +61,8 @@ export default function LoginForm({ handleLogin, credError }) {
         </p>
         <p className={styles.links}>
           <span
+          role="img"
+          aria-label="updates"
             className={styles.link}
             onClick={() =>
               openLinkInBrowser("https://getstreamon.com/downloads")
@@ -69,6 +72,8 @@ export default function LoginForm({ handleLogin, credError }) {
           </span>{" "}
           •&nbsp;
           <span
+          role="img"
+          aria-label="donate"
             className={styles.link}
             onClick={() => openLinkInBrowser("https://ko-fi.com/haxzie")}
           >

@@ -13,6 +13,8 @@ export default function Button(props) {
           return styles.rounded;
         case "ghost":
           return styles.ghost
+        default:
+          return styles.clear
       }
     }
   };

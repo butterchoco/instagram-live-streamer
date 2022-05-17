@@ -36,6 +36,8 @@ function Home({ profile, dispatch }) {
   const [showComments, setShowComments] = useState(false);
   const [duration, startTimer, stopTimer, clearTimer] = useTimer(0);
 
+  console.log(profile_pic_url)
+
   console.log({ profile })
 
   // stop the live stream if it crosses 1 hour
@@ -44,6 +46,7 @@ function Home({ profile, dispatch }) {
     if (duration >= config.STREAM_LIMIT - 2) {
       stopLiveStream();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration]);
 
   const iUrlRef = useRef();
@@ -168,7 +171,8 @@ function Home({ profile, dispatch }) {
         >
           <p className={styles.info}>
             Explore our {" "}
-            <span
+            <span role="img"
+          aria-label="blog"
               style={{ color: "var(--color-primary)", cursor: "pointer" }}
               onClick={() =>
                 openLinkInBrowser(
@@ -177,7 +181,8 @@ function Home({ profile, dispatch }) {
               }
             >
               📚 Guides
-            </span> to learn how to use Streamon. <span
+            </span> to learn how to use Streamon. <span role="img"
+          aria-label="support"
               style={{ color: "var(--color-primary)", cursor: "pointer" }}
               onClick={() =>
                 openLinkInBrowser(
@@ -237,7 +242,7 @@ function Home({ profile, dispatch }) {
             isLive ? styles.liveBorder : ""
           }`}
         >
-          <img src={`${process.env.REACT_APP_IMAGE_PROXY}/${profile_pic_url}`} className={styles.profilePic} />
+          <img alt="profile-pic" src={process.env.REACT_APP_IMAGE_PROXY || profile_pic_url} className={styles.profilePic} />
           {isLive ? <span className={`${styles.liveTag}`}> Live</span> : <></>}
         </div>
         <div className={styles.texts}>
@@ -252,7 +257,7 @@ function Home({ profile, dispatch }) {
               <div className={styles.row}>
                 <TextInput value={streamURL} forwardRef={iUrlRef} readOnly />
                 <button className={styles.copyIcon} onClick={copyUrl}>
-                  <img src={CopyIcon} />
+                  <img alt="copy-icon" src={CopyIcon} />
                 </button>
               </div>
               <label>Stream Key</label>
@@ -264,7 +269,7 @@ function Home({ profile, dispatch }) {
                   readOnly
                 />
                 <button className={styles.copyIcon} onClick={copyKey}>
-                  <img src={CopyIcon} />
+                  <img alt="copy-icon" src={CopyIcon} />
                 </button>
               </div>
               <Button onClick={() => setReady(false)} buttontype="ghost">

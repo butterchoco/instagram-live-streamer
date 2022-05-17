@@ -11,13 +11,12 @@ export default function App() {
   const [
     isUpdateAvailable,
     checkForUpdates,
-    isAlive,
   ] = useUpdate();
   const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   useEffect(() => {
     checkForUpdates();
-  }, []);
+  }, [checkForUpdates]);
 
   useEffect(() => {
     if (isUpdateAvailable) {

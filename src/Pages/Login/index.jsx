@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { configureScope, captureMessage } from "@sentry/browser";
+import { configureScope } from "@sentry/browser";
 import styles from "./styles.module.scss";
 import StreamonLogo from "../../images/streamon-logo.svg";
 import LoadingBar from "../../components/LoadingBar";
@@ -92,6 +92,7 @@ function Login({ dispatch }) {
 
   useEffect(() => {
     restoreSession();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signIn = async ({ username, password }) => {
